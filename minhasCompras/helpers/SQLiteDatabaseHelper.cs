@@ -38,7 +38,7 @@ namespace minhasCompras.helpers
 
         public Task<List<Produto>> SearchProduto(string nome)
         {
-           string sql = "SELECT * FROM Produto WHERE Descricao LIKE ?";
+            string sql = "SELECT * FROM Produto WHERE Descricao LIKE '%" + nome + "%'";
             return _connection.QueryAsync<Produto>(sql);
         }
     }
