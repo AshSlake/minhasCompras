@@ -1,3 +1,6 @@
+using Microsoft.Maui.Controls;
+using System.Threading.Tasks;
+
 namespace minhasCompras.Views;
 
 public partial class ListaProduto : ContentPage
@@ -9,13 +12,14 @@ public partial class ListaProduto : ContentPage
 
     private void ToolbarItem_Clicked(object sender, EventArgs e)
     {
-		try
-		{
-			Navigation.PushAsync(new Views.NovoProduto());
-			
-		} catch (Exception ex)
-		{
-			DisplayAlert("OPS", ex.Message, "OK");
-		}
+        try
+        {
+             Navigation.PushAsync(new Views.NovoProduto());
+
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("OPS", ex.Message, "OK");
+        }
     }
 }

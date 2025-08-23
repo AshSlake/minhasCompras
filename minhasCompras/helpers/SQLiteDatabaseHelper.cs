@@ -5,6 +5,7 @@ namespace minhasCompras.helpers
 {
     public class SQLiteDatabaseHelper
     {
+        // readonly para garantir que a conexão não seja alterada após a inicialização
         readonly SQLiteAsyncConnection _connection;
 
         public SQLiteDatabaseHelper(string path)
