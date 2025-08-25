@@ -1,6 +1,7 @@
 using minhasCompras.models;
 using System.Threading.Tasks;
 using minhasCompras.helpers;
+using System.Globalization;
 
 namespace minhasCompras.Views;
 
@@ -15,6 +16,15 @@ public partial class NovoProduto : ContentPage
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(txt_descricao.Text) ||
+                string.IsNullOrWhiteSpace(txt_quantidade.Text) ||
+                string.IsNullOrWhiteSpace(txt_preco.Text))
+            {
+
+                await DisplayAlert("OPS", "INSIRA TODOS OS CAMPOS", "OK");
+                return;
+            }
+
             Produto produto = new Produto
             {
                 Descricao = Convert.ToString(txt_descricao.Text),
@@ -45,6 +55,7 @@ public partial class NovoProduto : ContentPage
             }
 
             await Navigation.PopAsync();
+
         }catch(Exception ex)
         {
             await DisplayAlert("OPS", ex.Message, "OK");

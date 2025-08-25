@@ -8,6 +8,7 @@ namespace minhasCompras.helpers
 {
     public static class AnimationHelpers
     {
+        // utilizamos o metodo como async para que a animação não bloqueie a thread principal da UI
         public static async Task AnimateClickAsync(View viewToAnimate)
         {
             // Reduz o tamanho da view para 95% em 100 milissegundos com uma animação suave
