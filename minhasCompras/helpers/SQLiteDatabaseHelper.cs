@@ -23,7 +23,7 @@ namespace minhasCompras.helpers
         {
             string sql = "UPDATE Produto SET Descricao = ?, quantidade = ?, Preco = ? WHERE Id = ?";
 
-            return _connection.QueryAsync<Produto>(sql, produto.Descricao, produto.quantidade, produto.Id);
+            return _connection.QueryAsync<Produto>(sql, produto.Descricao, produto.Quantidade, produto.Id);
 
         }
 
