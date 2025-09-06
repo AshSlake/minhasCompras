@@ -13,9 +13,9 @@
         <SearchBar x:Name="txt_search"
                    Placeholder="Busca de produtos"
                    TextChanged="txt_search_TextChanged"/>
-        <ListView x:Name="list_produtos">
+        <ListView x:Name="list_produtos" ItemSelected="list_produtos_ItemSelected">
             <ListView.Header>
-                <Grid ColumnDefinitions="*, *, *, *, *, *">
+                <Grid ColumnDefinitions="*, *, *, *, *">
                     <Label Grid.Column="0" Text="ID" HorizontalOptions="Center"/>
                     <Label Grid.Column="1" Text="Descrição" HorizontalOptions="Center"/>
                     <Label Grid.Column="2" Text="Preço" HorizontalOptions="Center"/>
@@ -29,10 +29,10 @@
                         <ViewCell.ContextActions>
                             <MenuItem Text="Remover" Clicked="MenuItem_Clicked" CommandParameter="{Binding Id}"/>
                         </ViewCell.ContextActions>
-                        <Grid ColumnDefinitions="*, *, *, *, *, *">
+                        <Grid ColumnDefinitions="*, *, *, *, *">
                             <Label Grid.Column="0" Text="{Binding Id}" HorizontalOptions="Center"/>
                             <Label Grid.Column="1" Text="{Binding Descricao}" HorizontalOptions="Center"/>
-                            <Label Grid.Column="2" Text="{Binding Preco}" HorizontalOptions="Center"/>
+                            <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{0:C2}'}" HorizontalOptions="Center"/>
                             <Label Grid.Column="3" Text="{Binding Quantidade}" HorizontalOptions="Center"/>
                             <Label Grid.Column="4" Text="{Binding Total, StringFormat='{0:C2}'}" HorizontalOptions="Center"/>
                         </Grid>

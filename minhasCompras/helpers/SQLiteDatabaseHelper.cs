@@ -19,12 +19,14 @@ namespace minhasCompras.helpers
             return _connection.InsertAsync(produto);
         }
 
-        public Task<List<Produto>> Update(Produto produto)
+        public Task<int> Update (Produto produto)
         {
-            string sql = "UPDATE Produto SET Descricao = ?, quantidade = ?, Preco = ? WHERE Id = ?";
-
-            return _connection.QueryAsync<Produto>(sql, produto.Descricao, produto.Quantidade, produto.Id);
-
+            if (produto == null || produto.Id <= 0)
+            {
+                throw new ArgumentException("Produto inválido para atualização.");
+            }
+            string sql = "UPDATE Produto SET Descricao = ?, Quantidade = ?, Preco = ? WHERE Id = ?";
+            return _connection.ExecuteAsync(sql, produto.Descricao, produto.Quantidade, produto.Preco, produto.Id);
         }
 
         public Task<int> Delete(int id)

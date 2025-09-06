@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="minhasCompras.views.EditarProduto"
-             Title="EditarProduto">
-    <VerticalStackLayout>
-      
+             x:Class="minhasCompras.Views.EditarProduto"
+             Title="{Binding Descricao}">
+    
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Salvar" Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+
+
+    <VerticalStackLayout VerticalOptions="Center" Spacing="10" Padding="25">
+
+        <Frame BackgroundColor="#FF6200EE">
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Text="ATUALIZAR PRODUTO" FontSize="Small" FontAttributes="Bold"/>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Label Text="Descrição do Produto" Margin="0,15,0,0" />
+        <Entry x:Name="txt_descricao" Text="{Binding Descricao}"/>
+
+        <Label Text="Quantidade do Produto"/>
+        <Entry x:Name="txt_quantidade" Text="{Binding Quantidade}" Keyboard="Numeric"/>
+
+        <Label Text="Preço Unitário"/>
+        <Entry x:Name="txt_preco" Text="{Binding Preco}" Keyboard="Numeric" />
+
+        <Button Text="Voltar"  Margin="0,50,0,0"/>
+
     </VerticalStackLayout>
 </ContentPage>

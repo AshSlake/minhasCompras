@@ -10,26 +10,42 @@ public partial class ListaProduto : ContentPage
     private readonly ObservableCollection<Produto> lista = [];
 
     public ListaProduto()
-	{
-		InitializeComponent();
+    {
+        try
+        {
+            InitializeComponent();
 
-        list_produtos.ItemsSource = lista;
+            list_produtos.ItemsSource = lista;
+        }
+        catch
+        {
+            DisplayAlert("OPS", "ERRO INESPERADO", "OK");
+        }
+
     }
 
     protected async override void OnAppearing()
     {
-        List<Produto> product_temp = await App.Db.GetAllProdutos();
+        try
+        {
+            List<Produto> product_temp = await App.Db.GetAllProdutos();
 
-        lista.Clear();
+            lista.Clear();
 
-        product_temp.ForEach( i => lista.Add(i) );
+            product_temp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("OPS", ex.Message, "OK");
+        }
+
     }
 
     private void ToolbarItem_Clicked(object sender, EventArgs e)
     {
         try
         {
-             Navigation.PushAsync(new Views.NovoProduto());
+            Navigation.PushAsync(new Views.NovoProduto());
 
         }
         catch (Exception ex)
@@ -40,36 +56,85 @@ public partial class ListaProduto : ContentPage
 
     private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
     {
-        string serchText = e.NewTextValue;
+        try
+        {
+            string serchText = e.NewTextValue;
 
-        lista.Clear();
+            lista.Clear();
 
-        List<Produto> product_temp = await App.Db.SearchProduto(serchText);
+            List<Produto> product_temp = await App.Db.SearchProduto(serchText);
 
-        product_temp.ForEach(i => lista.Add(i));
+            product_temp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("OPS", ex.Message, "OK");
+        }
     }
 
     private void ToolbarItem_Clicked_1(object sender, EventArgs e)
     {
-        double soma = lista.Sum(i => i.Total);
+        try
+        {
+            double soma = lista.Sum(i => i.Total);
 
-        string msg = string.Format("Total da compra: {0:C2}", soma);
+            string msg = string.Format("Total da compra: {0:C2}", soma);
 
-        DisplayAlert("Valor da Compra", msg, "OK");
+            DisplayAlert("Valor da Compra", msg, "OK");
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("OPS", ex.Message, "OK");
+        }
     }
 
     private async void MenuItem_Clicked(object sender, EventArgs e)
     {
-       int idSelecionado = (int)((MenuItem)sender).CommandParameter;
+        try
+        {
+            MenuItem? selecionado = sender as MenuItem;
+            Produto? produto = selecionado?.BindingContext as Produto;
 
-        await App.Db.Delete(idSelecionado);
+            bool readyFromExclude = await DisplayAlert("Atenção", "Confirma a exclusão do produto?", "SIM", "NÃO");
 
-        lista.Clear();
+            if (!readyFromExclude)
+            {
+                return;
+            }
 
-        List<Produto> product_temp = await App.Db.GetAllProdutos();
+            if (produto == null)
+            {
+                await DisplayAlert("OPS", "Nenhum produto selecionado", "OK");
+                return;
+            }
+            await App.Db.Delete(produto.Id);
 
-        lista.Clear();
+            lista.Clear();
 
-        product_temp.ForEach(i => lista.Add(i));
+            List<Produto> product_temp = await App.Db.GetAllProdutos();
+
+            product_temp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("OPS", ex.Message, "OK");
+        }
+    }
+
+    private void list_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        try
+        {
+            Produto produto = e.SelectedItem as Produto;
+            Navigation.PushAsync(new Views.EditarProduto
+            {
+                BindingContext = produto
+            });
+               
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("OPS", ex.Message, "OK");
+        }
     }
 }
