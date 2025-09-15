@@ -5,6 +5,7 @@
              >
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1"/>
+        <ToolbarItem Text="Somar Por Categoria" Clicked="ToolbarItem_Clicked_2"/>
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
 
@@ -33,12 +34,13 @@
             ItemSelected="list_produtos_ItemSelected"
             >
             <ListView.Header>
-                <Grid ColumnDefinitions="30,100,80,30,90">
+                    <Grid ColumnDefinitions="30,100,80,60,60,90">
                         <Label Grid.Column="0" Text="ID" HorizontalOptions="Center" FontAttributes="Bold"/>
                         <Label Grid.Column="1" Text="Descrição" HorizontalOptions="Center" FontAttributes="Bold"/>
                         <Label Grid.Column="2" Text="Preço" HorizontalOptions="Center" FontAttributes="Bold"/>
                         <Label Grid.Column="3" Text="Quant" HorizontalOptions="Center" FontAttributes="Bold"/>
-                    <Label Grid.Column="4" Text="Total" HorizontalOptions="Center" FontAttributes="Bold"/>
+                        <Label Grid.Column="4" Text="Tipo" HorizontalOptions="Center" FontAttributes="Bold"/>
+                    <Label Grid.Column="5" Text="Total" HorizontalOptions="Center" FontAttributes="Bold"/>
                 </Grid>
             </ListView.Header>
             <ListView.ItemTemplate >
@@ -47,12 +49,13 @@
                         <ViewCell.ContextActions>
                             <MenuItem Text="Remover" Clicked="MenuItem_Clicked" CommandParameter="{Binding Id}"/>
                         </ViewCell.ContextActions>
-                        <Grid ColumnDefinitions="30,100,80,40,90">
+                            <Grid ColumnDefinitions="30,100,80,60,60,90">
                             <Label Grid.Column="0" Text="{Binding Id}" HorizontalOptions="Center"/>
                             <Label Grid.Column="1" Text="{Binding Descricao}" HorizontalOptions="Center"/>
                             <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{0:C2}'}" HorizontalOptions="Center"/>
                             <Label Grid.Column="3" Text="{Binding Quantidade}" HorizontalOptions="Center"/>
-                            <Label Grid.Column="4" Text="{Binding Total, StringFormat='{0:C2}'}" HorizontalOptions="Center"/>
+                                <Label Grid.Column="4" Text="{Binding Categoria}" HorizontalOptions="Center"/>
+                                <Label Grid.Column="5" Text="{Binding Total, StringFormat='{0:C2}'}" HorizontalOptions="Center"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

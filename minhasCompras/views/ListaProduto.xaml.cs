@@ -54,6 +54,8 @@ public partial class ListaProduto : ContentPage
         }
     }
 
+
+
     private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
     {
         try
@@ -94,6 +96,50 @@ public partial class ListaProduto : ContentPage
             DisplayAlert("OPS", ex.Message, "OK");
         }
     }
+
+    private async void ToolbarItem_Clicked_2(object sender, EventArgs e)
+    {
+        try
+        {
+            
+            // carrega os nomes do enum
+            var categorias = Enum.GetNames(typeof(TipoProduto));
+
+            // abre o dialog para o usuário escolher
+            string escolha = await DisplayActionSheet(
+                "Selecione a categoria do produto", 
+                "Cancelar",                         
+                null,                               
+                categorias                          
+            );
+
+            // se o usuário não cancelar
+            if (escolha != "Cancelar" && escolha != null)
+            {
+
+                double soma = await SearchProductByTypeAsync(escolha);
+
+                await DisplayAlert("Resultado",
+                    $"Categoria: {escolha}\nSoma de preços: {soma:C}",
+                    "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("OPS", ex.Message, "OK");
+        }
+    }
+
+
+    private async Task<double> SearchProductByTypeAsync(string categoria)
+    {
+        var produtos = await App.Db.SearchProductByType(categoria);
+
+        // faz a soma nos objetos já carregados
+        return produtos.Sum(p => p.Total);
+    }
+
+
 
     private async void MenuItem_Clicked(object sender, EventArgs e)
     {

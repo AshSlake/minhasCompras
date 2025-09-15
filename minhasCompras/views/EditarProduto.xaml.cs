@@ -1,13 +1,35 @@
 using minhasCompras.models;
+using System.ComponentModel;
 
 namespace minhasCompras.Views;
 
-public partial class EditarProduto : ContentPage
+public partial class EditarProduto : INotifyPropertyChanged
 {
-	public EditarProduto()
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    // Lista de opções do enum convertidas em string
+    public List<string> TiposProdutosEdicao { get; } =
+        Enum.GetNames(typeof(TipoProduto)).ToList();
+
+    private string _produtoSelecionado;
+    public string ProdutoSelecionadoEdicao
+    {
+        get => _produtoSelecionado;
+        set
+        {
+            if (_produtoSelecionado != value)
+            {
+                _produtoSelecionado = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProdutoSelecionadoEdicao)));
+            }
+        }
+    }
+
+    public EditarProduto()
 	{
 		InitializeComponent();
-	}
+        BindingContext = this;
+    }
 
 	private async void ToolbarItem_Clicked(object sender, EventArgs e)
 	{
@@ -35,7 +57,8 @@ public partial class EditarProduto : ContentPage
                 Id = produto_anexado.Id,
                 Descricao = Convert.ToString(txt_descricao.Text),
                 Quantidade = Convert.ToDouble(txt_quantidade.Text),
-                Preco = Convert.ToDouble(txt_preco.Text)
+                Preco = Convert.ToDouble(txt_preco.Text),
+                Categoria = ProdutoSelecionadoEdicao
             };
 
             await App.Db.Update(produto);

@@ -1,16 +1,34 @@
 using minhasCompras.models;
-using System.Threading.Tasks;
-using minhasCompras.helpers;
-using System.Globalization;
+using System.ComponentModel;
 
 namespace minhasCompras.Views;
 
-public partial class NovoProduto : ContentPage
+public partial class NovoProduto : INotifyPropertyChanged
 {
-	public NovoProduto()
+    public event PropertyChangedEventHandler PropertyChanged;
+    // Lista de opções do enum convertidas em string
+    public List<string> TipoProdutos { get; } =
+        Enum.GetNames(typeof(TipoProduto)).ToList();
+
+    private string _produtoSelecionado;
+    public string ProdutoSelecionado
+    {
+        get => _produtoSelecionado;
+        set
+        {
+            if (_produtoSelecionado != value)
+            {
+                _produtoSelecionado = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ProdutoSelecionado)));
+            }
+        }
+    }
+
+    public NovoProduto()
 	{
 		InitializeComponent();
-	}
+        BindingContext = this;
+    }
 
     private async void ToolbarItem_Clicked(object sender, EventArgs e)
     {
@@ -29,7 +47,9 @@ public partial class NovoProduto : ContentPage
             {
                 Descricao = Convert.ToString(txt_descricao.Text),
                 Quantidade = Convert.ToDouble(txt_quantidade.Text),
-                Preco = Convert.ToDouble(txt_preco.Text)
+                Preco = Convert.ToDouble(txt_preco.Text),
+                Categoria = ProdutoSelecionado
+
             };
 
             await App.Db.Insert(produto);

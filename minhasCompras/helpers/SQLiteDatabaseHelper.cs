@@ -25,8 +25,8 @@ namespace minhasCompras.helpers
             {
                 throw new ArgumentException("Produto inválido para atualização.");
             }
-            string sql = "UPDATE Produto SET Descricao = ?, Quantidade = ?, Preco = ? WHERE Id = ?";
-            return _connection.ExecuteAsync(sql, produto.Descricao, produto.Quantidade, produto.Preco, produto.Id);
+            string sql = "UPDATE Produto SET Descricao = ?, Quantidade = ?, Preco = ? , Categoria = ? WHERE Id = ?";
+            return _connection.ExecuteAsync(sql, produto.Descricao, produto.Quantidade, produto.Preco, produto.Categoria, produto.Id);
         }
 
         public Task<int> Delete(int id)
@@ -42,6 +42,12 @@ namespace minhasCompras.helpers
         public Task<List<Produto>> SearchProduto(string nome)
         {
             string sql = "SELECT * FROM Produto WHERE Descricao LIKE '%" + nome + "%'";
+            return _connection.QueryAsync<Produto>(sql);
+        }
+
+        public Task<List<Produto>> SearchProductByType(string categoria)
+        {
+            string sql = "SELECT * FROM Produto WHERE Categoria LIKE '%" + categoria + "%'";
             return _connection.QueryAsync<Produto>(sql);
         }
     }

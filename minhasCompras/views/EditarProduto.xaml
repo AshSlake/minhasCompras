@@ -28,6 +28,12 @@
         <Label Text="Preço Unitário"/>
         <Entry x:Name="txt_preco" Text="{Binding Preco}" Keyboard="Numeric" />
 
+        <Label Text="Categoria"/>
+        <Picker x:Name="PickerCategoria"
+                Title="Tipo do Produto"
+                ItemsSource="{Binding Source={x:Reference Page}, Path=TiposProdutosEdicao}"
+                SelectedItem="{Binding Categoria, Mode=TwoWay}"/>
+
         <Button Text="Voltar"  Margin="0,50,0,0"/>
 
     </VerticalStackLayout>
