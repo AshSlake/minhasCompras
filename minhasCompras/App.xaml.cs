@@ -1,4 +1,5 @@
 ﻿using minhasCompras.helpers;
+using System.Globalization;
 
 namespace minhasCompras
 {
@@ -28,9 +29,18 @@ namespace minhasCompras
         {
             InitializeComponent();
 
+            // mudando a THREAD principal do app para o idioma Brasileiro.
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
+
             //MainPage = new AppShell();
             MainPage = new NavigationPage (new Views.ListaProduto());
         }
+
+        private CultureInfo CultureInfo(char v)
+        {
+            throw new NotImplementedException();
+        }
+
         // Configura a janela do aplicativo
         protected override Window 
             CreateWindow(IActivationState? activationState)

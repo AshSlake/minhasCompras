@@ -8,28 +8,46 @@
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout>
         
         <SearchBar x:Name="txt_search"
+                   Margin="0"
                    Placeholder="Busca de produtos"
                    TextChanged="txt_search_TextChanged"/>
-        <ListView x:Name="list_produtos" ItemSelected="list_produtos_ItemSelected">
+        <Frame
+            Padding="0"
+            Margin="10"
+            VerticalOptions="FillAndExpand">
+            <ListView 
+            x:Name="list_produtos"
+            IsPullToRefreshEnabled="True"
+            Refreshing="list_produtos_Refreshing"
+            ItemSelected="list_produtos_ItemSelected"
+            >
             <ListView.Header>
-                <Grid ColumnDefinitions="*, *, *, *, *">
-                    <Label Grid.Column="0" Text="ID" HorizontalOptions="Center"/>
-                    <Label Grid.Column="1" Text="Descrição" HorizontalOptions="Center"/>
-                    <Label Grid.Column="2" Text="Preço" HorizontalOptions="Center"/>
-                    <Label Grid.Column="3" Text="Quantidade" HorizontalOptions="Center"/>
-                    <Label Grid.Column="4" Text="Total" HorizontalOptions="Center"/>
+                <Grid ColumnDefinitions="30,100,80,30,90">
+                        <Label Grid.Column="0" Text="ID" HorizontalOptions="Center" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Text="Descrição" HorizontalOptions="Center" FontAttributes="Bold"/>
+                        <Label Grid.Column="2" Text="Preço" HorizontalOptions="Center" FontAttributes="Bold"/>
+                        <Label Grid.Column="3" Text="Quant" HorizontalOptions="Center" FontAttributes="Bold"/>
+                    <Label Grid.Column="4" Text="Total" HorizontalOptions="Center" FontAttributes="Bold"/>
                 </Grid>
             </ListView.Header>
-            <ListView.ItemTemplate>
+            <ListView.ItemTemplate >
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
                             <MenuItem Text="Remover" Clicked="MenuItem_Clicked" CommandParameter="{Binding Id}"/>
                         </ViewCell.ContextActions>
-                        <Grid ColumnDefinitions="*, *, *, *, *">
+                        <Grid ColumnDefinitions="30,100,80,40,90">
                             <Label Grid.Column="0" Text="{Binding Id}" HorizontalOptions="Center"/>
                             <Label Grid.Column="1" Text="{Binding Descricao}" HorizontalOptions="Center"/>
                             <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{0:C2}'}" HorizontalOptions="Center"/>
@@ -40,7 +58,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </VerticalStackLayout>
+        </Frame>
+    </StackLayout>
     
    
 </ContentPage>

@@ -58,17 +58,24 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
-            string serchText = e.NewTextValue;
+            string serchText = e.NewTextValue;  
+
+            list_produtos.IsRefreshing = true;
 
             lista.Clear();
 
             List<Produto> product_temp = await App.Db.SearchProduto(serchText);
 
             product_temp.ForEach(i => lista.Add(i));
+
         }
         catch (Exception ex)
         {
             await DisplayAlert("OPS", ex.Message, "OK");
+        }
+        finally
+        {
+            list_produtos.IsRefreshing = false;
         }
     }
 
@@ -135,6 +142,26 @@ public partial class ListaProduto : ContentPage
         catch (Exception ex)
         {
             DisplayAlert("OPS", ex.Message, "OK");
+        }
+    }
+
+    private async void list_produtos_Refreshing(object sender, EventArgs e)
+    {
+        try
+        {
+            List<Produto> product_temp = await App.Db.GetAllProdutos();
+
+            lista.Clear();
+
+            product_temp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("OPS", ex.Message, "OK");
+        }
+        finally
+        {
+            list_produtos.IsRefreshing = false;
         }
     }
 }
